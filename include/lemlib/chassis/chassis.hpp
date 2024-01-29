@@ -1,14 +1,3 @@
-/**
- * @file include/lemlib/chassis/chassis.hpp
- * @author LemLib Team
- * @brief Chassis class declarations
- * @version 0.4.5
- * @date 2023-01-23
- *
- * @copyright Copyright (c) 2023
- *
- */
-
 #pragma once
 
 #include <functional>
@@ -113,6 +102,31 @@ struct Drivetrain {
         float wheelDiameter;
         float rpm;
         float chasePower;
+};
+
+/**
+ * @brief Parameters for Chassis::turnTo
+ *
+ * We use a struct to simplify customization. Chassis::turnTo has many
+ * parameters and specifying them all just to set one optional param ruins
+ * readability. By passing a struct to the function, we can have named
+ * parameters, overcoming the c/c++ limitation
+ *
+ * @param forwards whether the robot should turn to face the point with the front of the robot.
+ * True by default
+ * @param maxSpeed the maximum speed the robot can turn at. Value between 0-127.
+ *  127 by default
+ * @param minSpeed the minimum speed the robot can turn at. If set to a non-zero value,
+ *  the exit conditions will switch to less accurate but smoother ones. Value between 0-127.
+ *  0 by default
+ * @param earlyExitRange angle between the robot and target point where the movement will
+ *  exit. Only has an effect if minSpeed is non-zero.
+ */
+struct TurnToParams {
+        bool forwards = true;
+        int maxSpeed = 127;
+        int minSpeed = 0;
+        float earlyExitRange = 0;
 };
 
 /**
@@ -248,6 +262,12 @@ class Chassis {
          */
         void waitUntilDone();
         /**
+         * @brief Sets the brake mode of the drivetrain motors
+         *
+         * @param mode Mode to set the drivetrain motors to
+         */
+        void setBrakeMode(pros::motor_brake_mode_e mode);
+        /**
          * @brief Turn the chassis so it is facing the target point
          *
          * The PID logging id is "angularPID"
@@ -255,26 +275,21 @@ class Chassis {
          * @param x x location
          * @param y y location
          * @param timeout longest time the robot can spend moving
-         * @param forwards whether the robot should turn to face the point with the front of the robot. true by
-         * default
-         * @param maxSpeed the maximum speed the robot can turn at. Default is 127
+         * @param params struct to simulate named parameters
          * @param async whether the function should be run asynchronously. true by default
          */
-        void turnToPoint(float x, float y, int timeout, bool forwards = true, float maxSpeed = 127, bool async = true);
+        void turnToPoint(float x, float y, int timeout, TurnToParams params, bool async = true);
         /**
          * @brief Turn the chassis so it is facing the target heading
          *
          * The PID logging id is "angularPID"
          *
-         * @param targetTheta robot target heading
+         * @param theta heading location
          * @param timeout longest time the robot can spend moving
-         * @param forwards whether the robot should turn to face the heading with the front of the robot. true by
-         * default
-         * @param maxSpeed the maximum speed the robot can turn at. Default is 127
+         * @param params struct to simulate named parameters
          * @param async whether the function should be run asynchronously. true by default
          */
-        void turnToHeading(float targetTheta, int timeout, bool forwards = true, float maxSpeed = 127,
-                           bool async = true);
+        void turnToHeading(float theta, int timeout, TurnToParams params, bool async = true);
         /**
          * @brief Move the chassis towards the target pose
          *
@@ -364,11 +379,10 @@ class Chassis {
          * @brief Dequeues this motion and permits queued task to run
          */
         void endMotion();
-    private:
+
         bool motionRunning = false;
         bool motionQueued = false;
 
-        pros::Mutex mutex;
         float distTravelled = 0;
 
         ControllerSettings lateralSettings;
@@ -383,5 +397,7 @@ class Chassis {
         ExitCondition lateralSmallExit;
         ExitCondition angularLargeExit;
         ExitCondition angularSmallExit;
+    private:
+        pros::Mutex mutex;
 };
 } // namespace lemlib
