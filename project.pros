@@ -1,11 +1,11 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "lemlib5rc-6b",
+    "project_name": "lemlib5rc-sk",
     "target": "v5",
     "templates": {
       "LemLib": {
-        "location": "C:\\Users\\sriha\\AppData\\Roaming\\PROS\\templates\\LemLib@0.5.0-rc.5+e0d09a",
+        "location": "C:\\Users\\sriha\\AppData\\Roaming\\PROS\\templates\\LemLib@0.5.0-rc.6+a7f8cb",
         "metadata": {
           "origin": "local"
         },
@@ -13,34 +13,37 @@
         "py/object": "pros.conductor.templates.local_template.LocalTemplate",
         "supported_kernels": "^3.8.0",
         "system_files": [
-          "include/lemlib/exitcondition.hpp",
-          "include/lemlib/api.hpp",
-          "static/example.txt",
-          "include/lemlib/logger/stdout.hpp",
-          "include/lemlib/chassis/chassis.hpp",
           "include/fmt/format.h",
-          "include/fmt/args.h",
-          "include/lemlib/pid.hpp",
-          "include/lemlib/chassis/trackingWheel.hpp",
-          "include/lemlib/logger/buffer.hpp",
-          "include/lemlib/logger/telemetrySink.hpp",
-          "include/fmt/core.h",
-          "include/lemlib/asset.hpp",
-          "firmware/LemLib.a",
-          "include/lemlib/logger/infoSink.hpp",
-          "include/lemlib/timer.hpp",
-          "include/lemlib/logger/baseSink.hpp",
-          "include/lemlib/chassis/odom.hpp",
           "firmware/asset.mk",
           "include/lemlib/logger/logger.hpp",
-          "include/lemlib/logger/message.hpp",
           "include/lemlib/pose.hpp",
+          "include/lemlib/timer.hpp",
           "include/lemlib/util.hpp",
-          "include/fmt/format-inl.h"
+          "include/lemlib/logger/message.hpp",
+          "include/fmt/core.h",
+          "include/lemlib/chassis/chassis.hpp",
+          "include/fmt/args.h",
+          "include/lemlib/pid.hpp",
+          "include/lemlib/README.md",
+          "include/lemlib/api.hpp",
+          "include/lemlib/logger/infoSink.hpp",
+          "include/lemlib/chassis/odom.hpp",
+          "include/lemlib/asset.hpp",
+          "include/lemlib/logger/baseSink.hpp",
+          "include/lemlib/VERSION",
+          "include/lemlib/LICENSE",
+          "include/lemlib/logger/stdout.hpp",
+          "include/lemlib/logger/telemetrySink.hpp",
+          "static/example.txt",
+          "include/fmt/format-inl.h",
+          "include/lemlib/chassis/trackingWheel.hpp",
+          "include/lemlib/exitcondition.hpp",
+          "include/lemlib/logger/buffer.hpp",
+          "firmware/LemLib.a"
         ],
         "target": "v5",
         "user_files": [],
-        "version": "0.5.0-rc.5+e0d09a"
+        "version": "0.5.0-rc.6+a7f8cb"
       },
       "kernel": {
         "location": "C:\\Users\\sriha\\AppData\\Roaming\\PROS\\templates\\kernel@3.8.0",
@@ -348,8 +351,8 @@
     },
     "upload_options": {
       "description": "6ball",
-      "icon": "clawbot",
-      "slot": 1
+      "icon": "ufo",
+      "slot": 3
     }
   }
 }

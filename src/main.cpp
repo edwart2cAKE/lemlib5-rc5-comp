@@ -35,7 +35,7 @@ pros::MotorGroup left_motors({lT, lM, lF});
 pros::MotorGroup right_motors({rT, rM, rF});
 
 lemlib::Drivetrain drivetrain{
-    &left_motors, &right_motors, 10.7, lemlib::Omniwheel::NEW_325, 333.33, 2};
+    &left_motors, &right_motors, 10.7, lemlib::Omniwheel::NEW_325, 1000/3, 2};
 
 // sensors (only inertial right now)
 pros::Imu inertial_sensor(4);
@@ -54,21 +54,21 @@ lemlib::ControllerSettings lateralController{
     0.5,   // small error range, in inches
     200, // small error range timeout, in milliseconds
     1,   // large error range, in inches
-    1000, // large error range timeout, in milliseconds
+    500, // large error range timeout, in milliseconds
     3   // maximum acceleration (slew)
 
 };
 
 // turning PID
 lemlib::ControllerSettings angularController{
-    4,   // proportional gain (kP)
-    0.2, // integral gain (kI)
-    30,  // derivative gain (kD)
+    2,   // proportional gain (kP)
+    0.1, // integral gain (kI)
+    10,  // derivative gain (kD)
     3,   // anti windup
     1,   // small error range, in degrees
-    200, // small error range timeout, in milliseconds
+    100, // small error range timeout, in milliseconds
     3,   // large error range, in degrees
-    1000, // large error range timeout, in milliseconds
+    300, // large error range timeout, in milliseconds
     3    // maximum acceleration (slew)
 };
 
@@ -173,7 +173,7 @@ void autonomous() {
 	1: right side
 	2: auto skills
 	*/
-  auton_selector = 1;
+  auton_selector = 2;
   
   left_motors.set_brake_modes(MOTOR_BRAKE_HOLD);
   right_motors.set_brake_modes(MOTOR_BRAKE_HOLD);
