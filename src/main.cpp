@@ -223,7 +223,7 @@ void opcontrol() {
     int left = master.get_analog(ANALOG_LEFT_Y);
     int right = master.get_analog(ANALOG_RIGHT_Y);
 
-    chassis.tank(left, right, 10);
+    chassis.tank(left, right, 2);
 
     prev_left = left;
     prev_right = right;
