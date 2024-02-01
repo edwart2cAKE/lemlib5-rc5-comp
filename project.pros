@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "lemlib5rc-sk",
+    "project_name": "lemlib5rc-d",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -351,8 +351,8 @@
     },
     "upload_options": {
       "description": "6ball",
-      "icon": "ufo",
-      "slot": 3
+      "icon": "X",
+      "slot": 2
     }
   }
 }

@@ -2,6 +2,8 @@
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/trackingWheel.hpp"
 #include "lemlib/timer.hpp"
+#include "pros/adi.hpp"
+#include "pros/misc.h"
 
 // right motors
 pros::Motor rF(11, pros::E_MOTOR_GEARSET_18, false);
@@ -17,12 +19,13 @@ pros::Motor lT(16, pros::E_MOTOR_GEARSET_18, true);
 pros::Motor intake(9, pros::E_MOTOR_GEARSET_06, true);
 
 // blocker
-bool blocker_engaged = false;
-pros::ADIDigitalOut blocker(1, blocker_engaged);
+
+pros::ADIDigitalOut hang(3, false);
 
 // wings
 bool wings_engaged = false;
 pros::ADIDigitalOut wings(2, wings_engaged);
+
 
 // cata: manual gear adjustment required
 bool shooting_cata = false;
@@ -61,9 +64,9 @@ lemlib::ControllerSettings lateralController{
 
 // turning PID
 lemlib::ControllerSettings angularController{
-    2,   // proportional gain (kP)
+    3.3,   // proportional gain (kP)
     0.1, // integral gain (kI)
-    10,  // derivative gain (kD)
+    25,  // derivative gain (kD)
     3,   // anti windup
     1,   // small error range, in degrees
     100, // small error range timeout, in milliseconds
@@ -173,7 +176,7 @@ void autonomous() {
 	1: right side
 	2: auto skills
 	*/
-  auton_selector = 2;
+  auton_selector = 0;
   
   left_motors.set_brake_modes(MOTOR_BRAKE_HOLD);
   right_motors.set_brake_modes(MOTOR_BRAKE_HOLD);
@@ -223,7 +226,7 @@ void opcontrol() {
     int left = master.get_analog(ANALOG_LEFT_Y);
     int right = master.get_analog(ANALOG_RIGHT_Y);
 
-    chassis.tank(left, right, 2);
+    chassis.tank(left, right, 3.5);
 
     prev_left = left;
     prev_right = right;
@@ -240,9 +243,8 @@ void opcontrol() {
       wings_engaged = !wings_engaged;
       wings.set_value(wings_engaged);
     }
-    if (master.get_digital_new_press(DIGITAL_L2)) {
-      blocker_engaged = !blocker_engaged;
-      blocker.set_value(blocker_engaged);
+    if (master.get_digital_new_press(DIGITAL_RIGHT)) {
+      hang.set_value(true);
     }
 
     if (master.get_digital_new_press(DIGITAL_L1)) {
