@@ -26,7 +26,6 @@ pros::ADIDigitalOut hang(3, false);
 bool wings_engaged = false;
 pros::ADIDigitalOut wings(2, wings_engaged);
 
-
 // cata: manual gear adjustment required
 bool shooting_cata = false;
 
@@ -38,12 +37,13 @@ pros::MotorGroup left_motors({lT, lM, lF});
 pros::MotorGroup right_motors({rT, rM, rF});
 
 lemlib::Drivetrain drivetrain{
-    &left_motors, &right_motors, 10.7, lemlib::Omniwheel::NEW_325, 1000/3, 2};
+    &left_motors, &right_motors, 10.7, lemlib::Omniwheel::NEW_325, 1000 / 3, 2};
 
 // sensors (only inertial right now)
 pros::Imu inertial_sensor(4);
 
-lemlib::OdomSensors sensors{nullptr, nullptr, nullptr, nullptr,
+lemlib::OdomSensors sensors{nullptr,
+ nullptr, nullptr, nullptr,
                             &inertial_sensor};
 
 // PIDs
@@ -54,17 +54,17 @@ lemlib::ControllerSettings lateralController{
     0.2, // integral gain (kI)
     20,  // derivative gain (kD)
     3,   // anti windup
-    0.5,   // small error range, in inches
+    0.5, // small error range, in inches
     200, // small error range timeout, in milliseconds
     1,   // large error range, in inches
     500, // large error range timeout, in milliseconds
-    3   // maximum acceleration (slew)
+    3    // maximum acceleration (slew)
 
 };
 
 // turning PID
 lemlib::ControllerSettings angularController{
-    3.3,   // proportional gain (kP)
+    3.3, // proportional gain (kP)
     0.1, // integral gain (kI)
     25,  // derivative gain (kD)
     3,   // anti windup
@@ -168,16 +168,16 @@ void competition_initialize() {}
  */
 void autonomous() {
 
-	/*
-	-103: combination tuning
-	-101: lateral pid tuning
-	-102: angular pid tuning
-	0: left side
-	1: right side
-	2: auto skills
-	*/
+  /*
+  -103: combination tuning
+  -101: lateral pid tuning
+  -102: angular pid tuning
+  0: left side
+  1: right side
+  2: auto skills
+  */
   auton_selector = 0;
-  
+
   left_motors.set_brake_modes(MOTOR_BRAKE_HOLD);
   right_motors.set_brake_modes(MOTOR_BRAKE_HOLD);
 

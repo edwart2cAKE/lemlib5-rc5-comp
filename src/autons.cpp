@@ -1,7 +1,4 @@
 #include "autons.hpp"
-#include "display/lv_objx/lv_preload.h"
-#include "lemlib/api.hpp"
-#include "main.h"
 #include "math.h"
 #include "pros/rtos.hpp"
 
@@ -17,7 +14,7 @@ const int WING_ACTIVATE_DELAY = 250;
 
 int timeout = 1200;
 
-/// @brief do defensive/left side
+/// @brief Hugenot
 void defensive_side() {
   // start pos
   chassis.setPose(-32, -56, 0);
@@ -56,6 +53,7 @@ void defensive_side() {
   // touch elevation bar
   chassis.moveToPoint(-3, -100, timeout);
 }
+// Unused
 void defensive_side_mess_up() {
   int level = -10;
   /*/ take out triball
@@ -113,26 +111,30 @@ void defensive_side_mess_up() {
   chassis.turnToPoint(0, -60, 1200, true);
   chassis.moveToPoint(-4, -60, 800, true, 60);//*/
 }
-ASSET(returnbackdefense_txt)
+
+
 int matchload_movement = 8;
+
+// gateway
 void defensive_side_safe() {
   // start pos
   chassis.setPose(-36 - 1, -60 - 1.75, 0);
 
   // set up for placing ball
-  chassis.turnToPoint(-60, -40, 600,{});
+  chassis.turnToPoint(-60, -40, 600, {});
   chassis.moveToPoint(-60, -40, 1200);
-  chassis.turnToHeading(0, 600,{});
+  chassis.turnToHeading(0, 600, {});
 
   // place ball
   chassis.waitUntilDone();
   intake.move_velocity(-400);
   pros::delay(500);
   chassis.turnToPoint(-60, -32, 1200, {.forwards = false});
-  chassis.moveToPoint(-60, -32, 700, {.forwards = false, .minSpeed = 110});
+  chassis.moveToPoint(-60, -32, 700, {.forwards = false, .minSpeed = 127});
   chassis.moveToPoint(-60, -40, 700);
+  chassis.moveToPoint(-60, -32, 700, {.forwards = false, .minSpeed = 127});
 
-  // go back
+  /*/ go back
   chassis.turnToPoint(-60, -50, 1200, {.forwards = false});
   chassis.moveToPoint(-60, -50, 1200,{.forwards = false});
   chassis.turnToHeading(-45, 1500, {.maxSpeed = 100});
@@ -152,7 +154,7 @@ void defensive_side_safe() {
   chassis.moveToPoint(-15, -62, 1200);
   chassis.turnToHeading(90, 600, {});
   chassis.waitUntilDone();
-  /*chassis.tank(60, 60);
+  chassis.tank(60, 60);
   pros::delay(250);
   chassis.tank(0, 0);*/
 }
@@ -197,11 +199,11 @@ void doing_6_ball() {
   pros::delay(500);
 
   // get match load
-  chassis.moveToPoint(48-6, -60, 1500, {.forwards = false});
+  chassis.moveToPoint(48 - 6, -60, 1500, {.forwards = false});
   chassis.turnToHeading(-135, 800, {});
   chassis.waitUntilDone();
   wings.set_value(true);
-  chassis.moveToPoint(48-6+10, -60 + 10, 1200, {.forwards = false});
+  chassis.moveToPoint(48 - 6 + 10, -60 + 10, 1200, {.forwards = false});
   chassis.turnToHeading(-180, 800, {});
 
   // push
@@ -219,7 +221,6 @@ void doing_6_ball() {
   intake.move_velocity(-600);
   chassis.tank(110, 110);
   pros::delay(300);
-  
 
   // go to lower ball
   chassis.turnToPoint(48, -48, 800, {.forwards = false});
@@ -243,7 +244,7 @@ void doing_6_ball() {
   // go to top
   intake.move_velocity(600);
   chassis.turnToPoint(6, 0, 900, {});
-  chassis.moveToPoint(6,0, 1400,{});
+  chassis.moveToPoint(6, 0, 1400, {});
 
   // wing push
   chassis.turnToHeading(-90, 800, {});
@@ -352,7 +353,7 @@ void skills2() {
 
   // go to push
   chassis.turnToPoint(24, -60, 1000, {});
-  chassis.moveToPoint(24, -60, 1000,{});
+  chassis.moveToPoint(24, -60, 1000, {});
   chassis.turnToPoint(-36, -60, 800, {});
   chassis.moveToPoint(-36, -60, 2000, {.minSpeed = 127});
   chassis.turnToPoint(-36, -36, 1200, {});
@@ -363,11 +364,12 @@ void skills2() {
   // first pushes
   int left_pushes = 2;
   for (int i = 0; i < left_pushes; i++) {
-    chassis.turnToPoint(-48+8.25-10-3*i, -8+6*i, 1200, {.forwards = false});
+    chassis.turnToPoint(-48 + 8.25 - 10 - 3 * i, -8 + 6 * i, 1200,
+                        {.forwards = false});
     wings.set_value(true);
     pros::delay(WING_ACTIVATE_DELAY);
-    chassis.moveToPoint(-48 + 8.25 - 10 - 3 * i, -8+6*i, 1500,
-                       {.forwards = false, .minSpeed = 127});
+    chassis.moveToPoint(-48 + 8.25 - 10 - 3 * i, -8 + 6 * i, 1500,
+                        {.forwards = false, .minSpeed = 127});
     chassis.waitUntilDone();
     chassis.moveToPoint(-20, -2, 1200);
     chassis.waitUntil(2);
@@ -375,7 +377,7 @@ void skills2() {
     chassis.waitUntilDone();
   }
 
-  chassis.setPose(-13,0,chassis.getPose().theta);
+  chassis.setPose(-13, 0, chassis.getPose().theta);
   // set up for 2nd pushes
   chassis.turnToPoint(-20, 23, 1200, {});
   chassis.moveToPoint(-20, 23, 1200);
@@ -384,11 +386,11 @@ void skills2() {
   // 2nd pushes
   int right_pushes = 0;
   for (int i = 0; i < right_pushes; i++) {
-    chassis.turnToPoint(-48+8.25-10-4*i, 13, 1200, {.forwards = false});
+    chassis.turnToPoint(-48 + 8.25 - 10 - 4 * i, 13, 1200, {.forwards = false});
     wings.set_value(true);
     pros::delay(WING_ACTIVATE_DELAY);
     chassis.moveToPoint(-48 + 8.25 - 11 - 3 * i, 10 + 3, 1500,
-                       {.forwards = false, .minSpeed = 127});
+                        {.forwards = false, .minSpeed = 127});
     chassis.waitUntilDone();
     chassis.moveToPoint(-20, 20 + 3, 1200);
     chassis.waitUntil(2);
@@ -462,5 +464,4 @@ void combination_tuning() {
   chassis.turnToPoint(48, 48, 1e4, {});
   chassis.moveToPoint(48, 48, 1e4);
   int end = pros::millis();
-  pros::lcd::print(5, "Time: %f", (end - start) / 1000);
 }
